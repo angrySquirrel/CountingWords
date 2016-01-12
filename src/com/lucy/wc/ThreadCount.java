@@ -16,7 +16,7 @@ public class ThreadCount implements Runnable {
 
 	private String buf;
 	private ConcurrentHashMap<String, AtomicLong> wc;	
-	private final static String DELIMS = " {}()[]:;.,/!@#$%^&|*\t\n\r";
+	private final static String DELIMS = " \t\n\r{}()[]:;.,/!@#$%^&|*";
 
 	public ThreadCount(String buf, ConcurrentHashMap<String,AtomicLong> wc){
 		setPara(buf,wc);
@@ -64,12 +64,12 @@ public class ThreadCount implements Runnable {
 		StringTokenizer st = new StringTokenizer(buf,DELIMS);
 		while(st.hasMoreTokens()){
 			String token = st.nextToken();
-			updateCount(token);
+			addFrequency(token);
 		}
 	}
 
 
-	private void updateCount(String word){
+	private void addFrequency(String word){
 		AtomicLong count = wc.get(word);
 		if(count == null){
 			AtomicLong newNumber = new AtomicLong(0);

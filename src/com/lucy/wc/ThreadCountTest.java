@@ -35,7 +35,7 @@ public class ThreadCountTest {
 			
 		Object[][] data = new Object[][]{
 			{"hello world, world hello,","hello:2;world:2;"},
-			{"免费,托管  Google, #@!#Google@!","Google:2;免费:1;托管:1;"}		
+			{"免费 托管  Google, #@!#Google@!","Google:2;免费:1;托管:1;"}		
 		};
 		return Arrays.asList(data);
 	}

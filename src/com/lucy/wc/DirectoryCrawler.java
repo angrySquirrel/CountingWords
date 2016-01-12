@@ -17,7 +17,8 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class DirectoryCrawler {
 
-	private  ExecutorService pool;
+	private  ExecutorService workingPool;
+	private  ExecutorService readerPool ;
 	private  ConcurrentHashMap<String, AtomicLong> wc;
 
 	public DirectoryCrawler(){
@@ -25,42 +26,32 @@ public class DirectoryCrawler {
 	}
 
 	public DirectoryCrawler(int nThreads){
-
-		pool = Executors.newFixedThreadPool(nThreads);
+		readerPool  = Executors.newSingleThreadExecutor();
+		workingPool = Executors.newFixedThreadPool(nThreads);
 		wc = new ConcurrentHashMap<String, AtomicLong>();
 	}
 
-	public void process(String folderName) throws IOException{
-		File f = new File(folderName);
-		if(!f.exists()|| !f.isDirectory()){
-			System.out.println("input is not a valid directory path");
-			System.exit(1);
-		}		
-		crawlAndProcess(f); 		
 
-	}
+	private void process(String folderName) throws IOException{
 
+		readerPool.execute(new Reader(folderName,workingPool, wc));				
 
-	private void crawlAndProcess(File directory) throws IOException{
-		int partitionSize = 1024;
-		for(File file : directory.listFiles()){
-			if(file.isDirectory()){
-				crawlAndProcess(file);
-			}else{
-				if(file.getName().endsWith(".txt")){
-					FileWordCount fwc = new FileWordCount(pool,wc);
-					BufferedReader reader = new BufferedReader(new FileReader(file.getPath()));
-					fwc.analysisFile(reader, partitionSize);
-				}
-			}
-		}
-		pool.shutdown();
+		readerPool.shutdown();
 		try{
-			pool.awaitTermination(20, TimeUnit.MINUTES);
+			readerPool.awaitTermination(20, TimeUnit.MINUTES);
 		}catch(InterruptedException e){
-			System.out.println("termination Interrupted");
+			System.out.println("ReaderPool termination Interrupted");
 			System.exit(1);
-		}
+		}	
+		
+		workingPool.shutdown();
+		try{
+			workingPool.awaitTermination(20, TimeUnit.MINUTES);
+		}catch(InterruptedException e){
+			System.out.println("workingPool termination Interrupted");
+			System.exit(1);
+		}	
+		
 	}	
 
 	public void printResults(){
