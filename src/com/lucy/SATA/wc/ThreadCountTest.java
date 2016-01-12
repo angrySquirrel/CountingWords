@@ -1,4 +1,4 @@
-package com.lucy.wc;
+package com.lucy.SATA.wc;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.*;

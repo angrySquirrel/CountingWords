@@ -1,4 +1,4 @@
-package com.lucy.wc;
+package com.lucy.SATA.wc;
 
 import java.io.*;
 import java.util.ArrayList;

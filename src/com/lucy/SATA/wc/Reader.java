@@ -1,4 +1,4 @@
-package com.lucy.wc;
+package com.lucy.SATA.wc;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class Reader implements Runnable{
-	private String folderName = null;
+	private final String folderName;
 	private final ConcurrentHashMap<String, AtomicLong> wc ;
 	private final ExecutorService ec ;
 	private final static String DELIMS = " \t\n\r{}()[]:;.,/!@#$%^&|*";
@@ -33,7 +33,7 @@ public class Reader implements Runnable{
 			if(file.isDirectory()){
 				crawlAndProcess(file);
 			}else{
-				if(file.getName().endsWith(".txt")){
+				if(file.getName().toLowerCase().endsWith(".txt")){
 					analysisFile(file);
 				}
 			}

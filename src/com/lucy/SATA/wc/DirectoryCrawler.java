@@ -1,4 +1,4 @@
-package com.lucy.wc;
+package com.lucy.SATA.wc;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -65,11 +65,17 @@ public class DirectoryCrawler {
 
 	public static void main(String[]args) throws IOException{
 		long startTime = System.currentTimeMillis();
-		if(args.length<2){
-			System.out.println("Usage:<directoryPath> <numOfThreads>");
+		if(args.length<1){
+			System.out.println("Usage:<directoryPath> [<numOfThreads>]");
 			System.exit(1);
 		}
-		DirectoryCrawler dirCrawler = new DirectoryCrawler(Integer.valueOf(args[1]));
+		DirectoryCrawler dirCrawler = null;
+		if(args.length==1){
+			dirCrawler = new DirectoryCrawler();//调用默认参数
+		}else{
+			dirCrawler = new DirectoryCrawler(Integer.valueOf(args[1]));
+		}
+		
 		dirCrawler.process(args[0]);	
 		long endTime = System.currentTimeMillis();
 		long elapsed = endTime - startTime;	
