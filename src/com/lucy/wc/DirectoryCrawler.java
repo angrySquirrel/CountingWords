@@ -68,7 +68,7 @@ public class DirectoryCrawler {
 		if(wc.isEmpty())
 			return;
 		for(Map.Entry<String, AtomicLong> e : wc.entrySet()){
-			System.out.println("key is:"+e.getKey()+": "+e.getValue());
+			System.out.println(e.getKey()+": "+e.getValue());
 		}	
 	}	
 

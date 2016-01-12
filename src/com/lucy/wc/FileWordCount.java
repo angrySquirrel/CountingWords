@@ -10,7 +10,7 @@ public class FileWordCount {
 
 	private final ConcurrentHashMap<String, AtomicLong> wc ;
 	private final ExecutorService ec ;
-	private final static String DELIMS = " {}()[]:;,.!@#$%^&|*\r\t\n";
+	private final static String DELIMS = " {}()[]:;.,/!@#$%^&|*\t\n\r";
 	
     public FileWordCount(ExecutorService ec, ConcurrentHashMap<String, AtomicLong> wc) {
     	this.ec = ec;
