@@ -26,15 +26,15 @@ public class WorkingThread implements Runnable{
 
 	
 	/**
-	 * 查找当前字符串有效分割符，避免对不完整单词的统计
+	 * 查找当前字符串有效分割符，避免对不完整单词的统计, 如果都不等于分割符，该段可能前后都属于被切断的部分
+	 * 所有暂不处理，留着和下一段buf一起
 	 * @param buf
 	 * @return
 	 */
 	private static int findLastDelim(String buf) {
 		for (int i = buf.length() - 1; i>=0; i--) {
 			for (int j = 0; j < DELIMS.length(); j++) {
-				char d = DELIMS.charAt(j);
-				if (d == buf.charAt(i)) return i;
+				if (DELIMS.charAt(j) == buf.charAt(i)) return i;
 			}
 		}
 		return 0;
